@@ -39,14 +39,6 @@ public class BaseUtility {
         driver.quit();
     }
 
-    public synchronized void scrollToElement(WebElement element) {
-        Actions act = new Actions(driver);
-        act.moveToElement(element).build().perform();
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-        act.scrollToElement(element).build().perform();
-
-    }
-
     public void switchToWindowByTitle(String expectedTitle) {
         // Get all open window handles
         Set<String> windowHandles = driver.getWindowHandles();

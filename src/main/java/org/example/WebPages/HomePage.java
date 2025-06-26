@@ -211,7 +211,6 @@ public class HomePage extends BaseUtility {
 
     public boolean isPaymentFillUpFormDisplay() {
         waitFor(3);
-        scrollToElement(bookBtn);
         return bookBtn.isDisplayed();
     }
 
