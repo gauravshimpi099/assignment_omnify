@@ -1,9 +1,12 @@
 package org.example.Utility;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
@@ -22,7 +25,9 @@ public class BaseUtility {
     protected void startBrowser() {
 
         WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headed");
+        driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
         driver.get("https://www.agoda.com/en-in");
@@ -34,6 +39,13 @@ public class BaseUtility {
         driver.quit();
     }
 
+    public synchronized void scrollToElement(WebElement element) {
+        Actions act = new Actions(driver);
+        act.moveToElement(element).build().perform();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        act.scrollToElement(element).build().perform();
+
+    }
 
     public void switchToWindowByTitle(String expectedTitle) {
         // Get all open window handles
@@ -62,7 +74,7 @@ public class BaseUtility {
     }
 
     public void waitForElementToBeDisplay(WebElement element) {
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         wait.until(ExpectedConditions.visibilityOf(element));
     }
 

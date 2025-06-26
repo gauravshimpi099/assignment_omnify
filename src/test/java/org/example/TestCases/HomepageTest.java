@@ -42,7 +42,7 @@ public class HomepageTest extends BaseUtility {
         Assert.assertTrue(getHomePage.verifiedCouponCollectedSuccessfully());
         getHomePage.closeCouponCollectedPopup();
 
-        // Switchin to window
+        // Switching to window
         switchToWindowByTitle("Agoda Official Site | Free Cancellation & Booking Deals | Over 2 Million Hotels");
 
         /** After updating coupon again user lands on search hotel
@@ -54,7 +54,7 @@ public class HomepageTest extends BaseUtility {
         // Clicking on first hotel, new window opens, switched to that.
         String getFirstHotelName = getHomePage.getFirstHotelName();
         getHomePage.bookFirstHotel();
-        waitFor(2);
+        waitFor(3);
         switchToWindowByTitle(getFirstHotelName);
         getHomePage.setClickOnBookBtn();
 
@@ -68,7 +68,7 @@ public class HomepageTest extends BaseUtility {
         getHomePage.enterMobileNumber("9876543210");
         getHomePage.selectNonSmokingRoom();
         getHomePage.selectLargeBed();
-        getHomePage.clickNextOrFinalStep();
+        getHomePage.clickFinalStep();
 
         // assertions for payment page displayed.
         Assert.assertTrue(getHomePage.isPaymentFillUpFormDisplay());

@@ -16,9 +16,6 @@ public class HomePage extends BaseUtility {
         PageFactory.initElements(driver, this);
     }
 
-    @FindBy(xpath = "//input[@ng-model=\"user.username\"]")
-    private WebElement usernameField;
-
     // 1. Search city input box
     @FindBy(css = "input[aria-label=\"Enter a destination or property\"]")
     WebElement cityInput;
@@ -27,26 +24,15 @@ public class HomePage extends BaseUtility {
     @FindBy(xpath = "//div[@class=\"Popup__content Popup__content_Occupancy\"]/ul/li[1]")
     WebElement selectCity;
 
-
-    @FindBy(id = "checkin_date")
-    WebElement checkinDate;
-
-    @FindBy(id = "checkout_date")
-    WebElement checkoutDate;
-
-    // 4. Guest dropdown
-    @FindBy(id = "guests")
-    WebElement guestDropdown;
-
-    // 5. Search button
+    // 3. Search button
     @FindBy(xpath = "//button[@data-selenium=\"searchButton\"]")
     WebElement searchButton;
 
-    // 6. Select hotel from results
+    // 4. Select hotel from results
     @FindBy(xpath = "(//li[@data-selenium=\"hotel-item\"])[1]/div/a/div/div/div/div[@data-element-name=\"property-card-info\"]")
     WebElement firstHotelBookButton;
 
-    // 6. Get first hotel name
+    // 5. Get first hotel name
     @FindBy(xpath = "(//li[@data-selenium=\"hotel-item\"])[1]/div/a/div/div/div[2]/div/header/div/h3")
     WebElement getFirstHotelName;
 
@@ -62,24 +48,23 @@ public class HomePage extends BaseUtility {
     @FindBy(xpath = "//span[text()='Activate coupon']")
     WebElement activateCoupon;
 
-
-    // 8. see all Coupons
+    // 9. see all Coupons
     @FindBy(xpath = "//a[@href=\"https://www.agoda.com/deals?cid=1897344\"]")
     WebElement seeAllCoupons;
 
-    // 5. After Selecting coupon code
+    // 10. After Selecting coupon code
     @FindBy(xpath = "//h2[text()='Coupon successfully collected! ']")
     WebElement afterSelectingCouponCodeFlagLine;
 
-    // 5. After Selecting coupon code
+    // 11. After Selecting coupon code
     @FindBy(xpath = "//h2[contains(@class,'DusrU')]")
     WebElement couponCollectedSuccessfullyMsg;
 
-    // 5. After Selecting coupon code close popup
+    // 12. After Selecting coupon code close popup
     @FindBy(css = "button[aria-label=\"close\"]")
     WebElement couponCollectedSuccessfullyClosePopUp;
 
-    // 10. Proceed to payment
+    // 13. Proceed to payment
     @FindBy(css = "button[data-element-name=\"bf-user-drop-off-alert-continue-button\"]")
     WebElement continueBookingBtn;
 
@@ -95,14 +80,14 @@ public class HomePage extends BaseUtility {
     @FindBy(css = "input[id=\"contact.contactPhoneNumber\"]")
     WebElement mobileNumberInput;
 
-    @FindBy(xpath = "//button[contains(text(),'NEXT: FINAL STEP')]")
+    @FindBy(css = "button[data-action=\"nextPage\"]")
     WebElement nextOrFinalStepButton;
 
     @FindBy(css = "label[data-testid=\"NonSmoking\"]")
     WebElement noSmokingRadioBtn;
 
-    @FindBy(xpath = "//span[text()='CREDIT/DEBIT CARD']")
-    WebElement credit_debitCardText;
+    @FindBy(css = "button[data-action=\"book\"]")
+    WebElement bookBtn;
 
     @FindBy(css = "label[data-testid=\"LargeBed\"]")
     WebElement largeBedRadioBtn;
@@ -112,9 +97,8 @@ public class HomePage extends BaseUtility {
         continueBookingBtn.click();
     }
 
-
     public void enterFirstName(String firstName) {
-        waitForElementToBeDisplay(firstNameInput);
+        waitFor(2);
         firstNameInput.clear();
         firstNameInput.sendKeys(firstName);
     }
@@ -137,7 +121,8 @@ public class HomePage extends BaseUtility {
         mobileNumberInput.sendKeys(mobileNumber);
     }
 
-    public void clickNextOrFinalStep() {
+    public void clickFinalStep() {
+        waitForElementToBeDisplay(nextOrFinalStepButton);
         nextOrFinalStepButton.click();
     }
 
@@ -164,11 +149,9 @@ public class HomePage extends BaseUtility {
         selectCity.click();
     }
 
-    public String getOriginalPrice() {
-        return getFinalPriceForFirstHotelBeforeCoupon.getText();
-    }
 
     public String getFirstHotelName() {
+        waitForElementToBeDisplay(getFirstHotelName);
         return getFirstHotelName.getText();
     }
 
@@ -205,23 +188,16 @@ public class HomePage extends BaseUtility {
         clickOnBookBtn.click();
     }
 
-    public void activateCoupon() {
-        waitForElementToBeDisplay(activateCoupon);
-        activateCoupon.click();
-    }
-
     public void clickOnSeeAllCoupons() {
         waitFor(5);
         waitForElementToBeDisplay(seeAllCoupons);
         seeAllCoupons.click();
     }
 
-
     public boolean verifyCouponIsApplied() {
         waitForElementToBeDisplay(afterSelectingCouponCodeFlagLine);
         return afterSelectingCouponCodeFlagLine.isDisplayed();
     }
-
 
     public boolean verifiedCouponCollectedSuccessfully() {
         waitForElementToBeDisplay(couponCollectedSuccessfullyMsg);
@@ -234,10 +210,10 @@ public class HomePage extends BaseUtility {
     }
 
     public boolean isPaymentFillUpFormDisplay() {
-        waitForElementToBeDisplay(credit_debitCardText);
-        return credit_debitCardText.isDisplayed();
+        waitFor(3);
+        scrollToElement(bookBtn);
+        return bookBtn.isDisplayed();
     }
-
 
 
 }
